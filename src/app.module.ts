@@ -21,6 +21,7 @@ import { ImageModule } from './image/image.module';
 import { UserLikeProductModule } from './user-like-product/user-like-product.module';
 import { TagModule } from './tag/tag.module';
 import { ProductTagModule } from './product-tag/product-tag.module';
+import { ProductFeatureModule } from './product-feature/product-feature.module';
 
 @Module({
   controllers: [AppController, InitController, GreetingController],
@@ -51,6 +52,7 @@ import { ProductTagModule } from './product-tag/product-tag.module';
     UserLikeProductModule,
     TagModule,
     ProductTagModule,
+    ProductFeatureModule,
   ],
   providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

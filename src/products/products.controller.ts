@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseArrayPipe,
   ParseIntPipe,
   Post,
   Put,
@@ -24,22 +25,39 @@ import { Role } from '@/auth/decorators/role.enum';
 import { RolesGuard } from '@/auth/guards/roles.guard';
 import { CreateProductTagDto } from '@/product-tag/dto/create-product-tag.dto';
 import { CreateUserLikeProductDto } from '@/user-like-product/dto/create-user-like-product.dto';
+import { CreateProductFeatureDto } from '@/product-feature/dto/create-product-feature.dto';
+import { UpdateProductFeature } from '@/product-feature/dto/update-product-feature.dto';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productService: ProductsService) {}
 
+  @Get('/test')
+  async test() {
+    await this.productService.test();
+  }
+
   @Get()
   findAll(
-    @Query('page') page: string,
-    @Query('category_id') category_id: string,
-    @Query('brand_id') brand_id: string,
+    @Query('page', ParseIntPipe)
+    page: number,
+    @Query('category_id', new ParseIntPipe({ optional: true }))
+    category_id: number,
+    @Query('brand_id', new ParseArrayPipe({ optional: true }))
+    brand_id: string[],
+    @Query('tag_id', new ParseArrayPipe({ optional: true }))
+    tag_id: string[],
   ) {
-    return this.productService.findAll(page, category_id, brand_id);
+    return this.productService.findAll(page, category_id, brand_id, tag_id);
   }
 
   @Get('/tags/:tag_id')
-  findAllOfTag(@Query('page') page: string, @Param('tag_id') tag_id: string) {
+  findAllOfTag(
+    @Query('page', new ParseIntPipe({ optional: true }))
+    page: number,
+    @Param('tag_id', new ParseIntPipe({ optional: true }))
+    tag_id: number,
+  ) {
     return this.productService.findAllOfTag(page, tag_id);
   }
 
@@ -137,5 +155,32 @@ export class ProductsController {
       user_id,
       product_id,
     });
+  }
+
+  @Post('/features')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @UsePipes(ValidationPipe)
+  async addProductFeature(@Body() data: CreateProductFeatureDto) {
+    await this.productService.addFeature(data);
+  }
+
+  @Put('/features/:id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @UsePipes(ValidationPipe)
+  async editProductFeature(
+    @Body() data: UpdateProductFeature,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    await this.productService.editFeature(data, id);
+  }
+
+  @Delete('/features/:id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @UsePipes(ValidationPipe)
+  async deleteProductFeature(@Param('id', ParseIntPipe) id: number) {
+    await this.productService.removeFeature(id);
   }
 }

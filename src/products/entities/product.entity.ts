@@ -14,6 +14,7 @@ import { ProductAttribute } from '@/product-attribute/entities/product-attribute
 import { Brand } from '@/brand/entities/brand.entity';
 import { Comment } from '@/comment/entities/comment.entity';
 import { ProductTag } from '@/product-tag/entities/product-tag.entity';
+import { ProductFeature } from '@/product-feature/entities/product-feature.entity';
 
 @Entity({ name: 'Products' })
 export class Product {
@@ -72,6 +73,10 @@ export class Product {
   // ***
   @OneToMany(() => ProductTag, (p) => p.product)
   product_tags: ProductTag[];
+
+  // ***
+  @OneToMany(() => ProductFeature, (p) => p.product)
+  features: ProductFeature[];
 
   @CreateDateColumn()
   created_at: Date;
