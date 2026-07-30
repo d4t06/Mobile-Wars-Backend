@@ -21,12 +21,12 @@ let ProductAttributeService = class ProductAttributeService {
     constructor(productAttributeRepository) {
         this.productAttributeRepository = productAttributeRepository;
     }
-    async createAttribute(createDto) {
-        const newProduct = await this.productAttributeRepository.save(createDto);
-        return newProduct;
+    async createAttribute(dtos) {
+        const attributes = await this.productAttributeRepository.upsert(dtos, ['id']);
+        return attributes;
     }
-    async updateAttribute(updateDto, id) {
-        await this.productAttributeRepository.update(id, updateDto);
+    async updateAttribute(dtos, id) {
+        await this.productAttributeRepository.upsert(dtos, ['id']);
     }
 };
 exports.ProductAttributeService = ProductAttributeService;

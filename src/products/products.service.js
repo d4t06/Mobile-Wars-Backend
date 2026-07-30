@@ -188,7 +188,8 @@ let ProductsService = class ProductsService {
             product_id: newProduct.id,
         });
         await this.descriptionRepository.save(description);
-        return newProduct;
+        const fullNewProduct = await this.findOne(newProduct.id);
+        return fullNewProduct;
     }
     async update(updateDto, id) {
         await this.productRepository.update(id, updateDto);

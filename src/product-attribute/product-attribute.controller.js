@@ -16,7 +16,6 @@ exports.ProductAttributeController = void 0;
 const common_1 = require("@nestjs/common");
 const product_attribute_service_1 = require("./product-attribute.service");
 const auth_guard_1 = require("../auth/guards/auth.guard");
-const update_product_attribute_dto_1 = require("./dto/update-product-attribute.dto");
 let ProductAttributeController = class ProductAttributeController {
     constructor(productAttributeService) {
         this.productAttributeService = productAttributeService;
@@ -30,7 +29,7 @@ let ProductAttributeController = class ProductAttributeController {
 };
 exports.ProductAttributeController = ProductAttributeController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Put)(),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
@@ -44,7 +43,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_product_attribute_dto_1.UpdateProductAttributeDto]),
+    __metadata("design:paramtypes", [Number, Array]),
     __metadata("design:returntype", Promise)
 ], ProductAttributeController.prototype, "updateAttribute", null);
 exports.ProductAttributeController = ProductAttributeController = __decorate([
