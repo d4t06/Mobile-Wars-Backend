@@ -20,7 +20,7 @@ export class ProductAttributeController {
     private readonly productAttributeService: ProductAttributeService,
   ) {}
 
-  @Post()
+  @Put()
   @UseGuards(AuthGuard)
   @UsePipes(ValidationPipe)
   async createAttribute(@Body() dto: CreateProductAttributeDto[]) {
@@ -31,7 +31,7 @@ export class ProductAttributeController {
   @UseGuards(AuthGuard)
   async updateAttribute(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateProductAttributeDto,
+    @Body() dto: CreateProductAttributeDto[],
   ) {
     return await this.productAttributeService.updateAttribute(dto, id);
   }

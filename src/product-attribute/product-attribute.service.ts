@@ -12,12 +12,12 @@ export class ProductAttributeService {
     private readonly productAttributeRepository: Repository<ProductAttribute>,
   ) {}
 
-  async createAttribute(createDto: CreateProductAttributeDto[]) {
-    const newProduct = await this.productAttributeRepository.save(createDto);
-    return newProduct;
+  async createAttribute(dtos: CreateProductAttributeDto[]) {
+    const attributes = await this.productAttributeRepository.upsert(dtos, ['id']);
+    return attributes;
   }
 
-  async updateAttribute(updateDto: UpdateProductAttributeDto, id: number) {
-    await this.productAttributeRepository.update(id, updateDto);
+  async updateAttribute(dtos: CreateProductAttributeDto[], id: number) {
+    await this.productAttributeRepository.upsert(dtos, ['id']);
   }
 }

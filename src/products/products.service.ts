@@ -25,7 +25,7 @@ import { UserLikeProduct } from '@/user-like-product/entities/user-like-product.
 import { CreateProductFeatureDto } from '@/product-feature/dto/create-product-feature.dto';
 import { ProductFeature } from '@/product-feature/entities/product-feature.entity';
 import { UpdateProductFeature } from '@/product-feature/dto/update-product-feature.dto';
-import { STATUS_CODES } from 'http';
+// import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class ProductsService {
@@ -231,7 +231,10 @@ export class ProductsService {
 
     await this.descriptionRepository.save(description);
 
-    return newProduct;
+
+    const fullNewProduct = await this.findOne(newProduct.id);
+
+    return fullNewProduct;
   }
 
   async update(updateDto: UpdateProductDto, id: number) {
